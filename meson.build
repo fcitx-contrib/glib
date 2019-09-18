@@ -2160,7 +2160,7 @@ else
   if cc.has_header_symbol('pthread.h', 'pthread_cond_timedwait_relative_np')
     glib_conf.set('HAVE_PTHREAD_COND_TIMEDWAIT_RELATIVE_NP', 1)
   endif
-  if cc.has_header_symbol('pthread.h', 'pthread_getname_np', prefix : pthread_prefix)
+  if host_system != 'emscripten' and cc.has_header_symbol('pthread.h', 'pthread_getname_np', prefix : pthread_prefix)
     glib_conf.set('HAVE_PTHREAD_GETNAME_NP', 1)
   endif
   if cc.has_header_symbol('pthread.h', 'pthread_getaffinity_np', prefix : pthread_prefix)
