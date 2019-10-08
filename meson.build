@@ -2728,8 +2728,6 @@ subdir('gobject')
 subdir('gthread')
 subdir('gmodule')
 subdir('gio')
-subdir('girepository')
-subdir('fuzzing')
 if get_option('tests')
   subdir('tests')
 endif
