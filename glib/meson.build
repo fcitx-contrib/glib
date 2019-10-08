@@ -530,7 +530,7 @@ if host_system == 'windows'
       include_directories : configinc,
       dependencies : [libglib_dep, app_profile_dep])
   endif
-else
+elif host_system != 'emscripten'
   gtester = executable('gtester', 'gtester.c',
     install : true,
     install_tag : 'bin-devel',
