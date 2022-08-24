@@ -297,7 +297,7 @@ glib_conf.set('ENABLE_NLS', 1)
 glibconfig_conf.set('LT_CURRENT_MINUS_AGE', soversion)
 
 process_spawn_allowed = true
-if subsystem.startswith('tvos') or subsystem.startswith('watchos')
+if subsystem.startswith('tvos') or subsystem.startswith('watchos') or host_system == 'emscripten'
   process_spawn_allowed = false
 endif
 
@@ -356,6 +356,9 @@ if host_system == 'windows'
 elif host_system == 'cygwin'
   glib_os = '''#define G_OS_UNIX
 #define G_WITH_CYGWIN'''
+elif host_system == 'emscripten'
+  glib_os = '''#define G_OS_UNIX
+#define G_PLATFORM_WASM'''
 else
   glib_os = '#define G_OS_UNIX'
 endif
@@ -886,7 +889,7 @@ if host_system != 'windows' and cc.has_function('posix_memalign', prefix: '#incl
 endif
 
 # Check that posix_spawn() is usable; must use header
-if cc.has_function('posix_spawn', prefix : '#include <spawn.h>')
+if process_spawn_allowed and cc.has_function('posix_spawn', prefix : '#include <spawn.h>')
   glib_conf.set('HAVE_POSIX_SPAWN', 1)
 endif
 
@@ -1893,6 +1896,8 @@ glibconfig_conf.set('gssizebits', ssizet_size * 8)
 # XXX: https://gitlab.gnome.org/GNOME/glib/issues/1413
 if host_system == 'windows' or host_system == 'cygwin'
   g_module_suffix = 'dll'
+elif host_system == 'emscripten'
+  g_module_suffix = 'wasm'
 else
   g_module_suffix = 'so'
 endif
