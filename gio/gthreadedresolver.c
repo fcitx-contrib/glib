@@ -1393,7 +1393,7 @@ do_lookup_records (const gchar          *rrname,
 {
   GList *records;
 
-#if defined(G_OS_UNIX)
+#if defined(G_OS_UNIX) && !defined(G_PLATFORM_WASM)
   gint len = 512;
   gint herr;
   GByteArray *answer;
@@ -1458,7 +1458,8 @@ do_lookup_records (const gchar          *rrname,
 
 #endif  /* HAVE_RES_NQUERY */
 
-#else
+  return g_steal_pointer (&records);
+#elif defined(G_OS_WIN32)
 
   DNS_STATUS status;
   DNS_RECORDA *results = NULL;
@@ -1477,9 +1478,12 @@ do_lookup_records (const gchar          *rrname,
   if (results != NULL)
     DnsRecordListFree (results, DnsFreeRecordList);
 
-#endif
-
   return g_steal_pointer (&records);
+#else
+  g_set_error (error, G_RESOLVER_ERROR, G_RESOLVER_ERROR_INTERNAL,
+               _("do_lookup_records is no-op on WebAssembly"));
+  return NULL;
+#endif
 }
 
 static GList *
