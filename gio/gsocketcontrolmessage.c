@@ -196,7 +196,7 @@ g_socket_control_message_deserialize (int      level,
     {
       i = 0;
 
-#ifndef G_OS_WIN32
+#if !defined(G_OS_WIN32) && !defined(G_PLATFORM_WASM)
       builtin_messages[i++] = G_TYPE_UNIX_CREDENTIALS_MESSAGE;
       builtin_messages[i++] = G_TYPE_UNIX_FD_MESSAGE;
 #endif
