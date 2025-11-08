@@ -2122,7 +2122,7 @@ else
     error('GLib must be built with -march=i486 or later.')
   endif
 endif
-glibconfig_conf.set('G_ATOMIC_LOCK_FREE', have_atomic_lock_free)
+glibconfig_conf.set('G_ATOMIC_LOCK_FREE', false)
 
 # === Threads ===
 
