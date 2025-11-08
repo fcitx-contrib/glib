@@ -1599,7 +1599,7 @@ g_io_extension_point_get_extension_by_name (GIOExtensionPoint *extension_point,
 
 static gint
 extension_prio_compare (gconstpointer  a,
-			gconstpointer  b)
+			gconstpointer  b, void *)
 {
   const GIOExtension *extension_a = a, *extension_b = b;
 
@@ -1671,7 +1671,7 @@ g_io_extension_point_implement (const char *extension_point_name,
   extension->priority = priority;
   
   extension_point->extensions = g_list_insert_sorted (extension_point->extensions,
-						      extension, extension_prio_compare);
+						      extension, (GCompareFunc)extension_prio_compare);
   
   return extension;
 }
