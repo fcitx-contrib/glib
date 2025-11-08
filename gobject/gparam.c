@@ -1262,7 +1262,7 @@ g_param_spec_pool_list_owned (GParamSpecPool *pool,
 
 static gint
 pspec_compare_id (gconstpointer a,
-		  gconstpointer b)
+		  gconstpointer b, void *)
 {
   const GParamSpec *pspec1 = a, *pspec2 = b;
 
@@ -1406,7 +1406,7 @@ g_param_spec_pool_list (GParamSpecPool *pool,
   p = pspecs;
   for (i = 0; i < d; i++)
     {
-      slists[i] = g_slist_sort (slists[i], pspec_compare_id);
+      slists[i] = g_slist_sort (slists[i], (GCompareFunc)pspec_compare_id);
       for (node = slists[i]; node; node = node->next)
 	*p++ = node->data;
       g_slist_free (slists[i]);
