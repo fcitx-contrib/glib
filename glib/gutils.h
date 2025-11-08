@@ -298,7 +298,7 @@ gint                  g_vsnprintf          (gchar       *string,
 					    G_GNUC_PRINTF(3, 0);
 
 GLIB_AVAILABLE_IN_ALL
-void                  g_nullify_pointer    (gpointer    *nullify_location);
+void                  g_nullify_pointer    (gpointer    *nullify_location, void *);
 
 /**
  * GFormatSizeFlags:

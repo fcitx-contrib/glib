@@ -317,7 +317,11 @@ closure_invoke_notifiers (GClosure *closure,
       while (i--)
 	{
 	  ndata = closure->notifiers + offs + i;
+    if (ndata->notify == g_object_ref) {
+      g_object_ref (ndata->data);
+    } else {
 	  ndata->notify (ndata->data, closure);
+    }
 	}
       break;
     case POST_NOTIFY:
@@ -326,7 +330,11 @@ closure_invoke_notifiers (GClosure *closure,
       while (i--)
 	{
 	  ndata = closure->notifiers + offs + i;
+    if (ndata->notify == g_object_unref) {
+      g_object_unref (ndata->data);
+    } else {
 	  ndata->notify (ndata->data, closure);
+    }
 	}
       break;
     }
