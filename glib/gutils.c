@@ -2765,7 +2765,7 @@ g_get_system_config_dirs (void)
  * Set the pointer at the specified location to %NULL.
  **/
 void
-g_nullify_pointer (gpointer *nullify_location)
+g_nullify_pointer (gpointer *nullify_location, void *)
 {
   g_return_if_fail (nullify_location != NULL);
 
