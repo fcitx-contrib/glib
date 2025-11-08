@@ -129,6 +129,10 @@ g_memory_input_stream_class_init (GMemoryInputStreamClass *klass)
   istream_class->close_finish = g_memory_input_stream_close_finish;
 }
 
+static void g_bytes_unref_data(GBytes *bytes, void *) {
+  g_bytes_unref(bytes);
+}
+
 static void
 g_memory_input_stream_finalize (GObject *object)
 {
@@ -138,7 +142,7 @@ g_memory_input_stream_finalize (GObject *object)
   stream = G_MEMORY_INPUT_STREAM (object);
   priv = stream->priv;
 
-  g_slist_free_full (priv->chunks, (GDestroyNotify)g_bytes_unref);
+  g_slist_free_full (priv->chunks, (GDestroyNotify)g_bytes_unref_data);
 
   G_OBJECT_CLASS (g_memory_input_stream_parent_class)->finalize (object);
 }
